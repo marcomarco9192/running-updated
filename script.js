@@ -19,6 +19,10 @@ paypal.Buttons({
       onApprove: function(data, actions){
           return actions.order.capture().then(function(details){
               alert("Transaction Successful! Thanks for Booking, "+details.payer.name.given_name);
+              setTimeout(function() {
+                // Redirect to the home page
+                window.location.href = 'index.html';
+            }, 2000);
           })
 
       },
@@ -28,3 +32,5 @@ paypal.Buttons({
       }
 
   }).render("#paypal-button-container");
+
+
