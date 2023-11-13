@@ -15,7 +15,18 @@
     referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="/script.js"></script>
   <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+  <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+</script>
+
+<script type="text/javascript">
+   (function() {
+      emailjs.init("kgC_dwGunN4Lt4Ly4");
+   })();
+</script>
 
 </head>
 
@@ -86,16 +97,13 @@
     <div class="container flex">
         <div class="input grid">
             <div class="box">
-                <label>First Name:</label>
-                <input type="text" id="first_name" name="first_name" placeholder="First Name" required>
+                <label>Full Name:</label>
+                <input type="text" id="fullName" placeholder="Full Name" required>
             </div>
-            <div class="box">
-                <label>Last Name:</label>
-                <input type="text" id="last_name" name="last_name" placeholder="Last Name" required>
-            </div>
+    
             <div class="box">
                 <label>Email:</label>
-                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="email" id="email_id" placeholder="Email Address" required>
             </div>
             <div class="box">
                 <label>Dates:</label>
@@ -107,6 +115,11 @@
                     <option value="1">1 adult</option>
                 </select>
             </div>
+            <div class="box">
+              <label for="message">Note:</label>
+              <textarea id="message" name="message" rows="3" placeholder="Enter your note here"></textarea>
+          </div>
+          
             <div class="price">
               <h5>Price: <span>&euro;35/person</span></h5>
           </div>
@@ -119,20 +132,37 @@
           <div class="duration">
               <h5>Duration: <span>1hr</span></h5>
           </div>
-            
-
+          <div class="search">
+            <input type="submit" value="SEND REQUEST & PAY NOW" onclick="sendMailAndRedirect();">
+          </div>
         </div>
-        
-        <div id="paypal-button-container"></div>
 
-        <div class="search">
-          <input type="submit" value="PAY NOW" onclick="redirectToPayPalPage()">
-        </div>
 
     </div>
 </section>
 
-<script src="/script.js"></script>
+
+<script>
+  function sendMailAndRedirect() {
+    SendMail(redirectToPayPalPage);
+  }
+
+  function SendMail(callback) {
+    var params = {
+      from_name: document.getElementById("fullName").value,
+      email_id: document.getElementById("email_id").value,
+      date: document.getElementById("check_in_date").value,
+      message: document.getElementById("message").value
+    };
+
+    emailjs.send("service_zpdd4fh", "template_1ntz03n", params).then(function (res) {
+      alert("Success! Now, please, proceed with payment.");
+      if (callback && typeof callback === "function") {
+        callback();
+      }
+    });
+  }
+</script>
 
 <script>
   function redirectToPayPalPage() {
@@ -140,7 +170,6 @@
     window.location.href = 'paypal.html';
   }
 </script>
-
 
 <section class="book1">
 
@@ -188,9 +217,18 @@
 </footer>
 
 
+
+
+
 </body>
 
 </html>
+
+
+
+
+
+
 
 
 
